@@ -29,7 +29,6 @@ DB.create_table! :answers do
   primary_key :id
   foreign_key :quest_id
   foreign_key :user_id
-  Boolean :finished
   String :answer
   Boolean :correct
 end

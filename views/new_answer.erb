@@ -1,0 +1,13 @@
+<h2>
+    <i class="far fa-calendar-alt"></i>
+    <%= @quest[:deadline] %>
+</h2>
+<h1><%= @quest[:title] %></h1>
+
+<form action="/quests/<%= @quest[:id] %>/answers/create" method="POST">
+  <div class="form-group">
+    <label><%= @quest[:question] %></label>
+    <textarea class="form-control" rows="1" name="answer"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

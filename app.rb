@@ -85,18 +85,48 @@ get "/logout" do
     view "logout"
 end
 
-# Form to create a new response
+# Form to create a new response to attended quest
 get "/quests/:id/signups/new" do
     @quest = quests_table.where(:id => params["id"]).to_a[0]
     view "new_signup"
 end
 
-# Receiving end of new RSVP form
+# Receiving end of the attending form
 post "/quests/:id/signups/create" do
-    signups_table.insert(:quest_id => params["id"],
-                       :attending => params["attending"],
-                       :user_id => @current_user[:id],
-                       :comments => params["comments"])
+    past_signup = signups_table.where(:quest_id => params["id"]).where(:user_id => @current_user[:id]).to_a[0]
     @quest = quests_table.where(:id => params["id"]).to_a[0]
-    view "create_signup"
+    if past_signup
+        view "create_signup_duplicate"
+    else
+        signups_table.insert(:quest_id => params["id"],
+                            :attending => params["attending"],
+                            :user_id => @current_user[:id],
+                            :comments => params["comments"])
+        view "create_signup"
+    end
+end
+
+# Form to create a new answer of the quest
+get "/quests/:id/answers/new" do
+    @quest = quests_table.where(:id => params["id"]).to_a[0]
+    view "new_answer"
+end
+
+# Receiving end of the answer form
+post "/quests/:id/answers/create" do
+    @quest = quests_table.where(:id => params["id"]).to_a[0]
+    answer_entered = params["answer"]
+    if answer_entered == @quest[:solution]
+        answers_table.insert(:quest_id => params["id"],
+                            :user_id => @current_user[:id],
+                            :answer => params["answer"],
+                            :correct => 1)
+        view "create_answer"
+    else
+        answers_table.insert(:quest_id => params["id"],
+                            :user_id => @current_user[:id],
+                            :answer => params["answer"],
+                            :correct => 0)
+        view "create_answer_failed"
+    end
 end
