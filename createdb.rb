@@ -31,6 +31,7 @@ DB.create_table! :answers do
   foreign_key :user_id
   Boolean :finished
   String :answer
+  Boolean :correct
 end
 DB.create_table! :users do
   primary_key :id

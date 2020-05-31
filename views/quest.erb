@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col-sm-9">
+        <h2>
+            <i class="far fa-calendar-alt"></i>
+            <%= @quest[:deadline] %>
+        </h2>
+        <h1><%= @quest[:title] %></h1>
+        <p>Objective: <%= @quest[:objective] %></p>
+        <p>Clues: <%= @quest[:clues] %></p>
+        <% for signup in @signups %>
+            <% user = @users_table.where(:id => singup[:user_id]).to_a[0] %>
+            <div class="media">
+                <% if signup[:attending] %>
+                    <i class="fas fa-thumbs-up fa-3x mr-3"></i>
+                <% else %>
+                    <i class="fas fa-thumbs-down fa-3x mr-3"></i>
+                <% end %>
+                <div class="media-body">
+                    <h5 class="mt-0"><%= user[:name] %></h5>
+                    <%= signup[:comments] %>
+                </div>
+            </div>
+        <% end %>
+        <p class="mt-5">
+            <a href="/quests/<%= @quest[:id] %>/attend/new" class="btn btn-primary">Attend now!</a>
+        </p>
+    </div>
+    <div class="col-sm-3">
+        <h3>Quest Deadline</h3>
+        <p><%= @quest[:deadline] %></p>
+        <h3>Location</h3>
+        <p><%= @quest[:location] %></p>
+        <h3>How many are on this quest so far?</h3>
+        <p><%= @count_signup %></p>
+        <h3>How many have finished this quest so far?</h3>
+        <p><%= @count_finish %></p>
+    </div>
+</div>
