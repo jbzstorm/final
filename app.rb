@@ -20,6 +20,12 @@ signups_table = DB.from(:signups)
 answers_table = DB.from(:answers)
 users_table = DB.from(:users)
 
+before do
+    # SELECT * FROM users WHERE id = session[:user_id]
+    @current_user = users_table.where(:id => session[:user_id]).to_a[0]
+    puts @current_user.inspect
+end
+
 # view all quests
 get "/" do
     @quests = quests_table.all
@@ -60,11 +66,9 @@ post "/logins/create" do
     puts params
     email_entered = params["email"]
     password_entered = params["password"]
-    # SELECT * FROM users WHERE email = email_entered
     user = users_table.where(:email => email_entered).to_a[0]
     if user
         puts user.inspect
-        # test the password against the one in the users table
         if user[:password] == password_entered
             session[:user_id] = user[:id]
             view "create_login"
@@ -81,3 +85,18 @@ get "/logout" do
     view "logout"
 end
 
+# Form to create a new response
+get "/quests/:id/signups/new" do
+    @quest = quests_table.where(:id => params["id"]).to_a[0]
+    view "new_signup"
+end
+
+# Receiving end of new RSVP form
+post "/quests/:id/signups/create" do
+    signups_table.insert(:quest_id => params["id"],
+                       :attending => params["attending"],
+                       :user_id => @current_user[:id],
+                       :comments => params["comments"])
+    @quest = quests_table.where(:id => params["id"]).to_a[0]
+    view "create_signup"
+end
