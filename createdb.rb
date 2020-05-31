@@ -15,8 +15,8 @@ DB.create_table! :quests do
   String :reward, text: true
   String :question, text: true
   String :solution
-  Numeric : lat
-  Numeric : lng
+  Numeric :lat
+  Numeric :lng
 end
 DB.create_table! :signups do
   primary_key :id
@@ -41,26 +41,26 @@ end
 
 
 # Insert initial (seed) data
-quests_table = DB.from(:events)
+quests_table = DB.from(:quests)
 
 quests_table.insert(title: "Ghost in the Hub",
                     objective: "Word on the street, there is a ghost haunting the Hub, find him/her!",
                     clues: "The ghost has been sighted in the mail room recently",
-                    deadline "July 1",
-                    location "Kellogg Global Hub",
-                    reward "All Kelloggers' gratitude and a cup of free coffee",
+                    deadline: "July 1",
+                    location: "Kellogg Global Hub",
+                    reward: "All Kelloggers' gratitude and a cup of free coffee",
                     question: "In which year did the ghost graduate from Kellogg?",
                     solution: "2001",
-                    lat: ,
-                    lng:)
+                    lat: 15,
+                    lng: 15)
 
 quests_table.insert(title: "Missing food delivery in McManus",
                     objective: "Someone has been stealing other people's food delivery in McManus, find the thief!",
                     clues: "Some students have reported seeing a shady person in study room 1F",
-                    deadline "July 3",
-                    location "McManus",
-                    reward "All you can eat in Burger King",
+                    deadline: "July 3",
+                    location: "McManus",
+                    reward: "All you can eat in Burger King",
                     question: "How many deliveries has this thief stolen?",
                     solution: "8",
-                    lat: ,
-                    lng:)
+                    lat: 15,
+                    lng: 15)
