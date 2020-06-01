@@ -24,8 +24,18 @@
         <p class="mt-5">
             <a href="/quests/<%= @quest[:id] %>/signups/new" class="btn btn-primary">Attend now!</a>
         </p>
+        <br>
+        <p>People who has completed the quest: </p>
+        <% for answer in @answers %>
+            <% user = @users_table.where(:id => answer[:user_id]).to_a[0] %>
+            <div class="media">
+                <% if answer[:correct] %>
+                    <h5 class="mt-0"><%= user[:name] %></h5>
+                <% end %>
+            </div>
+        <% end %>
         <p class="mt-5">
-            <a href="/quests/<%= @quest[:id] %>/answers/new" class="btn btn-primary">I have finished the quest!</a>
+            <a href="/quests/<%= @quest[:id] %>/answers/new" class="btn btn-primary">I have completed the quest!</a>
         </p>
     </div>
     <div class="col-sm-3">
@@ -35,7 +45,7 @@
         <p><%= @quest[:location] %></p>
         <h3>How many are on this quest so far?</h3>
         <p><%= @count_signup %></p>
-        <h3>How many have finished this quest so far?</h3>
+        <h3>How many have completed this quest so far?</h3>
         <p><%= @count_finish %></p>
     </div>
 </div>
