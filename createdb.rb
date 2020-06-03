@@ -15,8 +15,7 @@ DB.create_table! :quests do
   String :reward, text: true
   String :question, text: true
   String :solution
-  Numeric :lat
-  Numeric :lng
+  String :address
 end
 DB.create_table! :signups do
   primary_key :id
@@ -51,8 +50,7 @@ quests_table.insert(title: "Ghost in the Hub",
                     reward: "All Kelloggers' gratitude and a cup of free coffee",
                     question: "In which year did the ghost graduate from Kellogg?",
                     solution: "2001",
-                    lat: 42.0574063,
-                    lng: -87.6722787)
+                    address: "2211 Campus Dr, Evanston, IL 60208")
 
 quests_table.insert(title: "Missing food delivery in McManus",
                     objective: "Someone has been stealing other people's food delivery in McManus, find the thief!",
@@ -62,5 +60,4 @@ quests_table.insert(title: "Missing food delivery in McManus",
                     reward: "All you can eat in Burger King",
                     question: "How many deliveries has this thief stolen?",
                     solution: "8",
-                    lat: 42.0490447,
-                    lng: -87.6797442)
+                    address: "1725 Orrington Ave, Evanston, IL 60201")

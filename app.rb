@@ -40,6 +40,9 @@ get "/quests/:id" do
     @count_signup = signups_table.where(:quest_id => params["id"], :attending => true).count
     @answers = answers_table.where(:quest_id => params["id"]).to_a
     @count_finish = answers_table.where(:quest_id => params["id"], :correct => true).count
+    results = Geocoder.search(@quest[:address])
+    @lat_long = results.first.coordinates.join(",")
+    puts @lat_long
     view "quest"
 end
 
