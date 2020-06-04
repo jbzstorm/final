@@ -82,10 +82,6 @@ post "/logins/create" do
     end
 end
 
-# Logout
-get "/logout" do
-    view "logout"
-end
 
 # Form to create a new response to attended quest
 get "/quests/:id/signups/new" do
