@@ -21,7 +21,6 @@ answers_table = DB.from(:answers)
 users_table = DB.from(:users)
 
 before do
-    # SELECT * FROM users WHERE id = session[:user_id]
     @current_user = users_table.where(:id => session[:user_id]).to_a[0]
     puts @current_user.inspect
 end
@@ -139,6 +138,6 @@ end
 
 # Logout
 get "/logout" do
-    session[:user_id] = nil
+    session[:user_id] = 0
     view "logout"
 end
