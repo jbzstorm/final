@@ -119,20 +119,20 @@ end
 post "/quests/:id/answers/create" do
     @quest = quests_table.where(:id => params["id"]).to_a[0]
     answer_entered = params["answer"]
-    past_answer = answers_table.where(:quest_id => params["id"]).where(:user_id => @current_user[:id]).where(:correct => 1).to_a[0]
+    past_answer = answers_table.where(:quest_id => params["id"]).where(:user_id => @current_user[:id]).where(:correct => true).to_a[0]
     if past_answer
         view "create_answer_duplicate"
         elsif answer_entered == @quest[:solution]
             answers_table.insert(:quest_id => params["id"],
                                 :user_id => @current_user[:id],
                                 :answer => params["answer"],
-                                :correct => 1)
+                                :correct => true)
             view "create_answer"
         else
             answers_table.insert(:quest_id => params["id"],
                                 :user_id => @current_user[:id],
                                 :answer => params["answer"],
-                                :correct => 0)
+                                :correct => false)
             view "create_answer_failed"
     end
 end
