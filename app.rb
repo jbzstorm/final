@@ -138,6 +138,6 @@ end
 
 # Logout
 get "/logout" do
-    session[:user_id] = 0
+    session[:user_id] = nil
     view "logout"
 end
