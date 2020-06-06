@@ -20,6 +20,13 @@ signups_table = DB.from(:signups)
 answers_table = DB.from(:answers)
 users_table = DB.from(:users)
 
+# read API credentials from environment variables
+account_sid = ENV["TWILIO_ACCOUNT_SID"]
+auth_token = ENV["TWILIO_AUTH_TOKEN"]
+
+# set up a client to talk to the Twilio REST API
+client = Twilio::REST::Client.new(account_sid, auth_token)
+
 before do
     @current_user = users_table.where(:id => session[:user_id]).to_a[0]
     puts @current_user.inspect
@@ -100,6 +107,13 @@ post "/quests/:id/signups/create" do
                             :attending => params["attending"],
                             :user_id => @current_user[:id],
                             :comments => params["comments"])
+
+        client.messages.create(
+                                from: "+12028738065", 
+                                to: "+18478408107",
+                                body: "A new player has joined the quest!"
+                                )
+
         view "create_signup"
     end
 end
@@ -122,6 +136,11 @@ post "/quests/:id/answers/create" do
                                 :user_id => @current_user[:id],
                                 :answer => params["answer"],
                                 :correct => true)
+            client.messages.create(
+                        from: "+12028738065", 
+                        to: "+18478408107",
+                        body: "A new player has completed the quest!"
+                        )
             view "create_answer"
         else
             answers_table.insert(:quest_id => params["id"],
